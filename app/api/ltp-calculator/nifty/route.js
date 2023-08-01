@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 async function getData(){
-    let apiData =  await fetch("https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY")
+    let apiData =  await fetch("https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY",{  cache: 'force-cache'  } )
     let jsonData =  await apiData.json()
     
     return jsonData;

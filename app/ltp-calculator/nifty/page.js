@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default async function Calculator() {
 
-    const response =  await fetch("http://localhost:3000/api/ltp-calculator/nifty",{ next: { revalidate: 10 } });
+    const response =  await fetch("http://localhost:3000/api/ltp-calculator/nifty/nearatm",{ next: { revalidate: 10 } });
     const data = await response.json();
     const chainData = data.body;
     
@@ -46,11 +46,6 @@ export default async function Calculator() {
                 <div className="inline-block min-w-full py-2 ">
                 <div className="">
                     <table className="min-w-full text-left text-sm font-light border-solid border-2 border-white">
-                    <tbody>
-                        <tr className="border-b dark:border-neutral-500">
-
-                        </tr>   
-                    </tbody>
                     <thead className="border-b font-medium dark:border-neutral-500">
                         <tr>
                         <th scope="col" className="px-2 py-4 text-center ">
@@ -120,209 +115,32 @@ export default async function Calculator() {
                     </thead>
                     <tbody>
                         {chainData.optionData.map((item, index)=>(
-                            <tr key={index} className="border-b dark:border-neutral-500" >
-                                <td className="whitespace-nowrap px-2 py-4 text-center">Cell</td>
-                                <td className="whitespace-nowrap px-2 py-4 text-center">Cell</td>
-                                <td className="whitespace-nowrap px-2 py-4 text-center">Cell</td>
-                                <td className="whitespace-nowrap px-2 py-4 text-center">Cell</td>
-                                <td className="whitespace-nowrap px-2 py-4 text-center">{item.CE.impliedVolatility}</td>
-                                <td className="whitespace-nowrap px-2 py-4 text-center">{item.CE.openInterest}</td>
-                                <td className="whitespace-nowrap px-2 py-4 text-center">{item.CE.changeinOpenInterest}</td>
-                                <td className="whitespace-nowrap px-2 py-4 text-center">{item.CE.totalTradedVolume}</td>
-                                <td className="whitespace-nowrap px-2 py-4 text-center">Cell</td>
-                                <td className="whitespace-nowrap px-2 py-4 text-center">{item.CE.lastPrice}</td>
-                                <td className="whitespace-nowrap px-2 py-4 text-center bg-orange-500">{item.strikePrice}</td>
-                                <td className="whitespace-nowrap px-2 py-4 text-center">{item.PE.lastPrice}</td>
-                                <td className="whitespace-nowrap px-2 py-4 text-center">Cell</td>
-                                <td className="whitespace-nowrap px-2 py-4 text-center">{item.PE.totalTradedVolume}</td>
-                                <td className="whitespace-nowrap px-2 py-4 text-center">{item.PE.changeinOpenInterest}</td>
-                                <td className="whitespace-nowrap px-2 py-4 text-center">{item.PE.openInterest}</td>
-                                <td className="whitespace-nowrap px-2 py-4 text-center">{item.PE.impliedVolatility}</td>
-                                <td className="whitespace-nowrap px-2 py-4 text-center">Cell</td>
-                                <td className="whitespace-nowrap px-2 py-4 text-center">Cell</td>
-                                <td className="whitespace-nowrap px-2 py-4 text-center">Cell</td>
-                                <td className="whitespace-nowrap px-2 py-4 text-center">Cell</td>
+                            <tr key={index} className={`whitespace-nowrap px-2 py-1 text-center border-b dark:border-black` + `${(index==9) ?"border-b-8 border-red-800":"border-b border-black"}` }>
+                                <td className={(index<=9)?" bg-gray-500 ": " " }>{index}</td>
+                                <td className={(index<=9)?" bg-gray-500 ": " " }>Cell</td>
+                                <td className={(index<=9)?" bg-gray-500 ": " " }>Cell</td>
+                                <td className={(index<=9)?" bg-gray-500 ": " " }>Cell</td>
+                                <td className={(index<=9)?" bg-gray-500 ": " " }>{item.CE.impliedVolatility}</td>
+                                <td className={(index<=9)?" bg-gray-500 ": " " }>{item.CE.openInterest}</td>
+                                <td className={(index<=9)?" bg-gray-500 ": " " }>{item.CE.changeinOpenInterest}</td>
+                                <td className={(index<=9)?" bg-gray-500 ": " " }>{item.CE.totalTradedVolume}</td>
+                                <td className={(index<=9)?" bg-gray-500 ": " " }>Cell</td>
+                                <td className={(index<=9)?" bg-gray-500 ": " " }>{item.CE.lastPrice}</td>
+                                <td className="whitespace-nowrap px-2 py-1 text-center bg-orange-500">{item.strikePrice}</td>
+                                <td className={(index>9)?" bg-gray-500 ": " " }>{item.PE.lastPrice}</td>
+                                <td className={(index>9)?" bg-gray-500 ": " " }>Cell</td>
+                                <td className={(index>9)?" bg-gray-500 ": " " }>{item.PE.totalTradedVolume}</td>
+                                <td className={(index>9)?" bg-gray-500 ": " " }>{item.PE.changeinOpenInterest}</td>
+                                <td className={(index>9)?" bg-gray-500 ": " " }>{item.PE.openInterest}</td>
+                                <td className={(index>9)?" bg-gray-500 ": " " }>{item.PE.impliedVolatility}</td>
+                                <td className={(index>9)?" bg-gray-500 ": " " }>Cell</td>
+                                <td className={(index>9)?" bg-gray-500 ": " " }>Cell</td>
+                                <td className={(index>9)?" bg-gray-500 ": " " }>Cell</td>
+                                <td className={(index>9)?" bg-gray-500 ": " " }>Cell</td>
                             </tr>
                         ))}
                     </tbody>
-                    {/* <tbody>
-                        <tr className="border-b dark:border-neutral-500">
-                        <td className="whitespace-nowrap px-2 py-4 text-center">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        </tr>
-                        <tr className="border-b dark:border-neutral-500">
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        </tr>
-                        <tr className="border-b dark:border-neutral-500">
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        </tr>
-                        <tr className="border-b dark:border-neutral-500">
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        </tr>
-                        <tr className="border-b dark:border-neutral-500">
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        </tr>
-                        <tr className="border-b dark:border-neutral-500">
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        </tr>
-                        <tr className="border-b dark:border-neutral-500">
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        </tr>
-                        <tr className="border-b dark:border-neutral-500">
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        <td className="whitespace-nowrap px-2 py-4">Cell</td>
-                        </tr>
-                    </tbody> */}
+                    
                     </table>
                 </div>
                 </div>
