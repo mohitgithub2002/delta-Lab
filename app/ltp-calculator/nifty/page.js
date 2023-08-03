@@ -1,11 +1,11 @@
-import Link from "next/link";
+// Path: app\ltp-calculator\banknifty\page.js
 
 export default async function Calculator() {
-
+    let chainData 
+    
     const response =  await fetch("http://localhost:3000/api/ltp-calculator/nifty/nearatm",{ next: { revalidate: 10 } });
     const data = await response.json();
-    const chainData = data.body;
-    
+    chainData = data.body;
 
     return(
         <div className="h-full flex-col items-end justify-center divide-y divide-blue-200">
@@ -36,7 +36,11 @@ export default async function Calculator() {
                         readOnly
                     >
                     </input>
-                    <button className="border-white border-solid border-2 box-border h-10 w-28 mx-10 bg-blue-600">Refresh</button>
+                    <button 
+                    // onClick={eventref()}
+                    href="/ltp-calculator/nifty"
+                    className="border-white border-solid border-2 box-border h-10 w-28 mx-10 bg-blue-600"
+                    >Refresh</button>
                 </div>
             </section>
             </section>
@@ -46,6 +50,9 @@ export default async function Calculator() {
                 <div className="inline-block min-w-full py-2 ">
                 <div className="">
                     <table className="min-w-full text-left text-sm font-light border-solid border-2 border-white">
+                    <tbody>
+                        <tr className="border-b border-black bg-purple-600"></tr>
+                    </tbody>
                     <thead className="border-b font-medium dark:border-neutral-500">
                         <tr>
                         <th scope="col" className="px-2 py-4 text-center ">
@@ -117,21 +124,21 @@ export default async function Calculator() {
                         {chainData.optionData.map((item, index)=>(
                             <tr key={index} className={`whitespace-nowrap px-2 py-1 text-center border-b dark:border-black` + `${(index==9) ?"border-b-8 border-red-800":"border-b border-black"}` }>
                                 <td className={(index<=9)?" bg-gray-500 ": " " }>{index}</td>
-                                <td className={(index<=9)?" bg-gray-500 ": " " }>Cell</td>
+                                <td className={(index<=9)?" bg-gray-500 ": " " }>{chainData.maxOICE}</td>
                                 <td className={(index<=9)?" bg-gray-500 ": " " }>Cell</td>
                                 <td className={(index<=9)?" bg-gray-500 ": " " }>Cell</td>
                                 <td className={(index<=9)?" bg-gray-500 ": " " }>{item.CE.impliedVolatility}</td>
-                                <td className={(index<=9)?" bg-gray-500 ": " " }>{item.CE.openInterest}</td>
                                 <td className={(index<=9)?" bg-gray-500 ": " " }>{item.CE.changeinOpenInterest}</td>
-                                <td className={(index<=9)?" bg-gray-500 ": " " }>{item.CE.totalTradedVolume}</td>
-                                <td className={(index<=9)?" bg-gray-500 ": " " }>Cell</td>
+                                <td className={`${(index<=9)?" bg-gray-500": " "} , ${(index===chainData.maxOICE)?" bg-blue-400":""}`}>{item.CE.openInterest}</td>
+                                <td className={`${(index<=9)?" bg-gray-500": " "} , ${(index===chainData.maxVolCE)?" bg-red-500":""}`}>{item.CE.totalTradedVolume}</td>
+                                <td className={`${(index<=9)?" bg-gray-500": "null "} , ${(Math.sign(item.CE.change) === -1)?" text-red-400":"text-green-300"}`}>{item.CE.change.toFixed(2)}</td>
                                 <td className={(index<=9)?" bg-gray-500 ": " " }>{item.CE.lastPrice}</td>
                                 <td className="whitespace-nowrap px-2 py-1 text-center bg-orange-500">{item.strikePrice}</td>
                                 <td className={(index>9)?" bg-gray-500 ": " " }>{item.PE.lastPrice}</td>
-                                <td className={(index>9)?" bg-gray-500 ": " " }>Cell</td>
-                                <td className={(index>9)?" bg-gray-500 ": " " }>{item.PE.totalTradedVolume}</td>
+                                <td className={`${(index>9)?" bg-gray-500 ": " null"} ,  ${(Math.sign(item.PE.change) === -1)?" text-red-400":"text-green-300"}`}>{item.PE.change.toFixed(2)}</td>
+                                <td className={`${(index>9)?" bg-gray-500": " "} , ${(index===chainData.maxVolPE)?" bg-green-600":""}` }>{item.PE.totalTradedVolume}</td>
+                                <td className={`${(index>9)?" bg-gray-500": " "} , ${(index===chainData.maxOIPE)?" bg-violet-600":""}`}>{item.PE.openInterest}</td>
                                 <td className={(index>9)?" bg-gray-500 ": " " }>{item.PE.changeinOpenInterest}</td>
-                                <td className={(index>9)?" bg-gray-500 ": " " }>{item.PE.openInterest}</td>
                                 <td className={(index>9)?" bg-gray-500 ": " " }>{item.PE.impliedVolatility}</td>
                                 <td className={(index>9)?" bg-gray-500 ": " " }>Cell</td>
                                 <td className={(index>9)?" bg-gray-500 ": " " }>Cell</td>
