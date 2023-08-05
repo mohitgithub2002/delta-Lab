@@ -1,9 +1,18 @@
 import { NextResponse } from "next/server";
-
+import bns from "@components/greek"
+function greek (spot,data){
+    let spotPrice = spot;
+    let strikePrice = data.strikePrice;
+    let expiry = data.expiryDate + " 15:30:00";
+    let volt = data.PE.impliedVolatility;
+    const greekData = bns(spotPrice,strikePrice,expiry,volt);
+    return greekData;
+}
 async function getData(){
     let apiData =  await fetch("https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY",{  cache: 'no-store'  } )
     let jsonData =  await apiData.json()
     return jsonData;
+    
 } 
 
 function highVolume(jsonData){
@@ -29,9 +38,11 @@ function highOI(jsonData){
 }
 
 function sliceData(jsonData){ 
+
     let optionData = jsonData.filtered.data;
     
     const strikePrice = optionData.map((element) => element.strikePrice);
+    
     
     
     let nvData = []
@@ -45,11 +56,24 @@ function sliceData(jsonData){
     let j = indexOfUnderlyingValue + 10;
     
     for(i; i<=j;i++){
-        nvData.push(optionData[i])
+        let greekData = greek(underlyingValue,optionData[i]);
+        nvData.push({
+            ...optionData[i],
+            callDelta : greekData.call_option_delta_value,
+            putDelta : greekData.put_option_delta_value,
+            gamma : greekData.option_gamma_value,
+            callTheta : greekData.call_option_theta_value,
+            putTheta : greekData.put_option_theta_value,
+            callRho : greekData.call_option_rho_value,
+            putRho : greekData.put_option_rho_value,
+            vega : greekData.option_vega_value,
+
+        })
     }
     
     return nvData;
 }
+
 
 
 

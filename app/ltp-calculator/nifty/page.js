@@ -1,11 +1,17 @@
+'use client';
 // Path: app\ltp-calculator\banknifty\page.js
 
+import { useRouter } from 'next/navigation'
 export default async function Calculator() {
     let chainData 
-    
+    const router = useRouter();
     const response =  await fetch("http://localhost:3000/api/ltp-calculator/nifty/nearatm",{ next: { revalidate: 10 } });
     const data = await response.json();
     chainData = data.body;
+
+    const eventref = () => {
+        router.refresh();
+    }
 
     return(
         <div className="h-full flex-col items-end justify-center divide-y divide-blue-200">
@@ -37,7 +43,8 @@ export default async function Calculator() {
                     >
                     </input>
                     <button 
-                    // onClick={eventref()}
+                    
+                    onClick={eventref}
                     href="/ltp-calculator/nifty"
                     className="border-white border-solid border-2 box-border h-10 w-28 mx-10 bg-blue-600"
                     >Refresh</button>
@@ -123,10 +130,10 @@ export default async function Calculator() {
                     <tbody>
                         {chainData.optionData.map((item, index)=>(
                             <tr key={index} className={`whitespace-nowrap px-2 py-1 text-center border-b dark:border-black` + `${(index==9) ?"border-b-8 border-red-800":"border-b border-black"}` }>
-                                <td className={(index<=9)?" bg-gray-500 ": " " }>{index}</td>
-                                <td className={(index<=9)?" bg-gray-500 ": " " }>{chainData.maxOICE}</td>
-                                <td className={(index<=9)?" bg-gray-500 ": " " }>Cell</td>
-                                <td className={(index<=9)?" bg-gray-500 ": " " }>Cell</td>
+                                <td className={(index<=9)?" bg-gray-500 ": " " }>{item.vega}</td>
+                                <td className={(index<=9)?" bg-gray-500 ": " " }>{item.callTheta}</td>
+                                <td className={(index<=9)?" bg-gray-500 ": " " }>{item.gamma}</td>
+                                <td className={(index<=9)?" bg-gray-500 ": " " }>{item.callDelta}</td>
                                 <td className={(index<=9)?" bg-gray-500 ": " " }>{item.CE.impliedVolatility}</td>
                                 <td className={(index<=9)?" bg-gray-500 ": " " }>{item.CE.changeinOpenInterest}</td>
                                 <td className={`${(index<=9)?" bg-gray-500": " "} , ${(index===chainData.maxOICE)?" bg-blue-400":""}`}>{item.CE.openInterest}</td>
@@ -140,10 +147,10 @@ export default async function Calculator() {
                                 <td className={`${(index>9)?" bg-gray-500": " "} , ${(index===chainData.maxOIPE)?" bg-violet-600":""}`}>{item.PE.openInterest}</td>
                                 <td className={(index>9)?" bg-gray-500 ": " " }>{item.PE.changeinOpenInterest}</td>
                                 <td className={(index>9)?" bg-gray-500 ": " " }>{item.PE.impliedVolatility}</td>
-                                <td className={(index>9)?" bg-gray-500 ": " " }>Cell</td>
-                                <td className={(index>9)?" bg-gray-500 ": " " }>Cell</td>
-                                <td className={(index>9)?" bg-gray-500 ": " " }>Cell</td>
-                                <td className={(index>9)?" bg-gray-500 ": " " }>Cell</td>
+                                <td className={(index>9)?" bg-gray-500 ": " " }>{item.putDelta}</td>
+                                <td className={(index>9)?" bg-gray-500 ": " " }>{item.gamma}</td>
+                                <td className={(index>9)?" bg-gray-500 ": " " }>{item.putTheta}</td>
+                                <td className={(index>9)?" bg-gray-500 ": " " }>{item.vega}</td>
                             </tr>
                         ))}
                     </tbody>
